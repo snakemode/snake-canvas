@@ -79,14 +79,13 @@ export class DrawableCanvasElement {
         this.dragging = true;
 
         const location = this.getLocationFrom(e);
-        this.cursorPoint.x = location.x;
-        this.cursorPoint.y = location.y;
+        this.cursorPoint = location;
 
         this.paintContext.lineWidth = 1;
         this.paintContext.lineCap = 'round';
         this.paintContext.filter = 'blur(1px)';
         this.paintContext.beginPath();
-        this.paintContext.moveTo(this.cursorPoint.x, this.cursorPoint.y);
+        this.paintContext.moveTo(location.x, location.y);
         this.paintContext.strokeStyle = this.activeColour;
     }
 
@@ -103,6 +102,17 @@ export class DrawableCanvasElement {
         this.paintContext.stroke();
 
         this.notify(location);
+    }
+
+    addMarks(markCollection) {
+        this.paintContext.beginPath();
+        this.paintContext.moveTo(location.x, location.y);
+        this.paintContext.strokeStyle = this.activeColour;
+
+        for (let location of markCollection) {       
+            this.paintContext.lineTo(location.x, location.y);
+            this.paintContext.stroke();
+        }
     }
 
     onNotification(callback) {
