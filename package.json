@@ -1,0 +1,30 @@
+{
+  "name": "snake-canvas",
+  "version": "1.0.0",
+  "description": "A drawable canvas for your HTML!",
+  "main": "src/DrawableCanvasElement.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "start": "npx live-server src",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snakemode/snake-canvas.git"
+  },
+  "keywords": [
+    "drawable",
+    "canvas",
+    "ui",
+    "html",
+    "touch"
+  ],
+  "author": "Jo Franchetti, David Whitney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snakemode/snake-canvas/issues"
+  },
+  "homepage": "https://github.com/snakemode/snake-canvas#readme"
+}
