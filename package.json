@@ -1,5 +1,5 @@
 {
-  "name": "snake-canvas",
+  "name": "@snakemode/snake-canvas",
   "version": "1.0.0",
   "description": "A drawable canvas for your HTML!",
   "main": "src/DrawableCanvasElement.js",
