@@ -1,6 +1,6 @@
 {
   "name": "@snakemode/snake-canvas",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A drawable canvas for your HTML!",
   "main": "src/DrawableCanvasElement.js",
   "directories": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "npx live-server src",
+    "ci": "",
     "test": "jest"
   },
   "repository": {
@@ -26,5 +27,9 @@
   "bugs": {
     "url": "https://github.com/snakemode/snake-canvas/issues"
   },
-  "homepage": "https://github.com/snakemode/snake-canvas#readme"
+  "homepage": "https://github.com/snakemode/snake-canvas#readme",
+  "devDependencies": {
+    "jest": "^26.2.2",
+    "jest-cli": "^26.2.2"
+  }
 }
