@@ -12,46 +12,46 @@ export class DrawableCanvasElement {
         this.paintCanvas.onmouseup = (e) => { this.stopDrawing(e); };
         this.paintCanvas.onmouseout = (e) => { this.stopDrawing(e); };
         this.paintCanvas.onmousemove = (e) => { this.makeMarks(e); };
-                         
+
         const canvas = this.paintCanvas;
 
         document.body.addEventListener("touchstart", (e) => {
             if (e.target == canvas) {
-                e.preventDefault();                 
-                this.startDrawing(e); 
+                e.preventDefault();
+                this.startDrawing(e);
             }
         }, false);
 
         document.body.addEventListener("touchend", (e) => {
-            if (e.target == canvas) { 
+            if (e.target == canvas) {
                 e.preventDefault();
-                this.stopDrawing(e); 
+                this.stopDrawing(e);
             }
         }, false);
-        
+
         document.body.addEventListener("touchmove", (e) => {
-            if (e.target == canvas) { 
-                e.preventDefault(); 
-                this.makeMarks(e); 
+            if (e.target == canvas) {
+                e.preventDefault();
+                this.makeMarks(e);
             }
         }, false);
 
         this.notificationBuffer = [];
-        this.notificationBatch = 200;     
+        this.notificationBatch = 200;
     }
 
     registerPaletteElements(paletteContainer) {
         const palette = document.getElementById(paletteContainer);
         for (let colour of palette.children) {
-            colour.addEventListener('click', (event) => { 
-                this.setActiveColour(event.target.style["background-color"]); 
+            colour.addEventListener('click', (event) => {
+                this.setActiveColour(event.target.style["background-color"]);
             });
         }
-        return this; 
+        return this;
     }
 
     setActiveColour(colour) {
-        this.activeColour = colour; 
+        this.activeColour = colour;
     }
 
     clear() {
@@ -61,13 +61,15 @@ export class DrawableCanvasElement {
     getLocationFrom(e) {
         const location = { x: 0, y: 0 };
 
-        if (e.constructor.name === "TouchEvent") {            
+        if (e.constructor.name === "TouchEvent") {
             const bounds = e.target.getBoundingClientRect();
             const touch = e.targetTouches[0];
-            
-            location.x = touch.pageX - bounds.left;
-            location.y = touch.pageY - bounds.top;
-        } else {            
+
+            console.log(bounds, touch);
+
+            location.x = touch.clientX - bounds.left;
+            location.y = touch.clientY - bounds.top;
+        } else {
             location.x = e.offsetX;
             location.y = e.offsetY;
         }
@@ -95,7 +97,7 @@ export class DrawableCanvasElement {
     }
 
     makeMarks(e) {
-        if(!this.dragging) return;
+        if (!this.dragging) return;
 
         const location = this.getLocationFrom(e);
         this.paintContext.lineTo(location.x, location.y);
@@ -109,7 +111,7 @@ export class DrawableCanvasElement {
         this.paintContext.moveTo(location.x, location.y);
         this.paintContext.strokeStyle = this.activeColour;
 
-        for (let location of markCollection) {       
+        for (let location of markCollection) {
             this.paintContext.lineTo(location.x, location.y);
             this.paintContext.stroke();
         }
