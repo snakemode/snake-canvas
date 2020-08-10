@@ -1,16 +1,32 @@
 <html>
-<head>   
-    <title>Example</title> 
+
+<head>
+    <title>Example</title>
     <style>
         canvas {
             touch-action: none;
         }
-    </style>    
+
+        .palette {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    </style>
     <script src="/index.js" type="module"></script>
 </head>
+
 <body>
 
-    <canvas id="foo" style="border: 1px solid black;" width="400" height="400"></canvas>  
+    <canvas id="foo" style="border: 1px solid black;" width="400" height="400"></canvas>
+    <div id="paletteId" class="palette">
+        <div style="background-color: black;">&nbsp;</div>
+        <div style="background-color: red;">&nbsp;</div>
+        <div style="background-color: green;">&nbsp;</div>
+        <div style="background-color: blue;">&nbsp;</div>
+        <div style="background-color: white;">&nbsp;</div>
+    </div>
 
 </body>
+
 </html>
