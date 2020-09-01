@@ -136,6 +136,13 @@ export class DrawableCanvasElement {
         }
     }
 
+    setSize(width, height) {
+        this.paintCanvas.width = width;
+        this.paintCanvas.height = height;
+        this.paintCanvas.style.width = width;
+        this.paintCanvas.style.height = height;
+    }
+
     toString() {
         return this.paintCanvas.toDataURL("image/png");
     }
