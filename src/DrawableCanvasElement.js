@@ -2,11 +2,7 @@ export class DrawableCanvasElement {
     constructor(canvasElementId) {
         this.canvasElementId = canvasElementId;
         this.paintCanvas = document.getElementById(canvasElementId);
-
         this.paintContext = this.paintCanvas.getContext("2d");
-        this.paintContext.lineWidth = this.lineWidth;
-        this.paintContext.lineCap = 'round';
-        this.paintContext.filter = 'blur(1px)';
 
         this.activeColour = "black";
         this.lineWidth = 1;
@@ -86,6 +82,10 @@ export class DrawableCanvasElement {
         const location = this.getLocationFrom(e);
         this.cursorPoint = location;
 
+        this.paintContext.lineWidth = this.lineWidth;
+        this.paintContext.lineCap = 'round';
+        this.paintContext.filter = 'blur(1px)';
+
         this.paintContext.beginPath();
         this.paintContext.moveTo(location.x, location.y);
         this.paintContext.strokeStyle = this.activeColour;
@@ -107,6 +107,10 @@ export class DrawableCanvasElement {
     }
 
     addMarks(markCollection) {
+        this.paintContext.lineWidth = this.lineWidth;
+        this.paintContext.lineCap = 'round';
+        this.paintContext.filter = 'blur(1px)';
+
         this.paintContext.beginPath();
         this.paintContext.moveTo(location.x, location.y);
         this.paintContext.strokeStyle = this.activeColour;
