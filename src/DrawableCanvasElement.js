@@ -38,7 +38,7 @@ export class DrawableCanvasElement {
         }, false);
 
         this.notificationBuffer = [];
-        this.notificationBatch = 200;
+        this.notificationBatch = 1000;
     }
 
     registerPaletteElements(paletteContainer) {
@@ -79,7 +79,6 @@ export class DrawableCanvasElement {
 
     startDrawing(e) {
         this.dragging = true;
-        this.notify({ setActiveColour: this.activeColour });
 
         const location = this.getLocationFrom(e);
         this.cursorPoint = location;
@@ -96,6 +95,7 @@ export class DrawableCanvasElement {
     stopDrawing(e) {
         this.dragging = false;
         this.notify(null, true);
+        this.paintContext.closePath();
     }
 
     makeMarks(e) {
@@ -105,7 +105,7 @@ export class DrawableCanvasElement {
         this.paintContext.lineTo(location.x, location.y);
         this.paintContext.stroke();
 
-        this.notify(location);
+        this.notify([location.x, location.y]);
     }
 
     addMarks(events) {
@@ -114,21 +114,25 @@ export class DrawableCanvasElement {
         this.paintContext.filter = 'blur(1px)';
 
         this.paintContext.beginPath();
-        this.paintContext.moveTo(location.x, location.y);
-        this.paintContext.strokeStyle = this.activeColour;
+
+        let started = false;
 
         for (let evt of events) {
-
             if ('setActiveColour' in evt) {
                 this.paintContext.strokeStyle = evt.setActiveColour;
+                continue;
             }
 
-            if ('x' in evt && 'y' in evt) {
-                this.paintContext.lineTo(evt.x, evt.y);
-                this.paintContext.stroke();
+            if (!started) {
+                this.paintContext.moveTo(evt[0], evt[1]);
+                started = true;
             }
+
+            this.paintContext.lineTo(evt[0], evt[1]);
+            this.paintContext.stroke();
         }
 
+        this.paintContext.closePath();
         this.paintContext.strokeStyle = this.activeColour;
     }
 
@@ -137,7 +141,7 @@ export class DrawableCanvasElement {
         return this;
     }
 
-    notify(evt, force = false) {
+    notify(evt, endPath = false) {
         if (this.notificationCallback == null) {
             return;
         }
@@ -146,9 +150,23 @@ export class DrawableCanvasElement {
             this.notificationBuffer.push(evt);
         }
 
-        if ((force || this.notificationBuffer.length === this.notificationBatch) && this.notificationBuffer.length > 0) {
+        if ((endPath || this.notificationBuffer.length === this.notificationBatch) && this.notificationBuffer.length > 0) {
+            // Set colour
+            this.notificationBuffer.unshift({ setActiveColour: this.activeColour });
+
             this.notificationCallback(this.notificationBuffer);
+
+            const lastLoc2 = this.notificationBuffer[this.notificationBuffer.length - 2];
+            const lastLoc1 = this.notificationBuffer[this.notificationBuffer.length - 1];
+
+            // Reset buffer
             this.notificationBuffer = [];
+
+            if (!endPath) {
+                // Cover up the gaps between paths if the whole path isn't in this one messsage
+                this.notificationBuffer.push(lastLoc2);
+                this.notificationBuffer.push(lastLoc1);
+            }
         }
     }
 
