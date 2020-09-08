@@ -124,6 +124,7 @@ export class DrawableCanvasElement {
             }
 
             if (!started) {
+                // Always moveTo first x,y coord to line paths up.
                 this.paintContext.moveTo(evt[0], evt[1]);
                 started = true;
             }
@@ -156,16 +157,15 @@ export class DrawableCanvasElement {
 
             this.notificationCallback(this.notificationBuffer);
 
-            const lastLoc2 = this.notificationBuffer[this.notificationBuffer.length - 2];
-            const lastLoc1 = this.notificationBuffer[this.notificationBuffer.length - 1];
+            // Capture last couple of points to cover up path differences
+            const buffLen = this.notificationBuffer.length;
+            const coverUpLocations = [this.notificationBuffer[buffLen - 2], this.notificationBuffer[buffLen - 1]].filter(x => x);
 
             // Reset buffer
             this.notificationBuffer = [];
 
             if (!endPath) {
-                // Cover up the gaps between paths if the whole path isn't in this one messsage
-                this.notificationBuffer.push(lastLoc2);
-                this.notificationBuffer.push(lastLoc1);
+                this.notificationBuffer.push(...coverUpLocations);
             }
         }
     }
