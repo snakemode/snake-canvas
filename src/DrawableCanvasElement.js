@@ -45,7 +45,8 @@ export class DrawableCanvasElement {
         const palette = document.getElementById(paletteContainer);
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
-                this.setActiveColour(event.target.style["background-color"]);
+                const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
+                this.setActiveColour(selectedColour);
             });
         }
         return this;
