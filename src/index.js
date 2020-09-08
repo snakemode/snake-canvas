@@ -1,6 +1,6 @@
 import { DrawableCanvasElement } from "./DrawableCanvasElement.js";
 
-const canvas = new DrawableCanvasElement("foo").registerPaletteElements("paletteId").registerPaletteElements("asList").onNotification((msg) => {
+const canvas = new DrawableCanvasElement("foo").registerPaletteElements("paletteId").onNotification((msg) => {
     for (let evt of msg) {
         if ('setActiveColour' in evt) {
             console.log("setActiveColour", evt.setActiveColour);
@@ -11,3 +11,5 @@ const canvas = new DrawableCanvasElement("foo").registerPaletteElements("palette
         }
     }
 });
+
+canvas.setSize(1024, 768);

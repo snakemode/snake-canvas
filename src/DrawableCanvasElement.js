@@ -153,10 +153,18 @@ export class DrawableCanvasElement {
     }
 
     setSize(width, height) {
+
+        let temp = this.paintContext.getImageData(0, 0, this.setWidth | 1, this.setHeight | 1);
+
         this.paintCanvas.width = width;
         this.paintCanvas.height = height;
         this.paintCanvas.style.width = width;
         this.paintCanvas.style.height = height;
+
+        this.setWidth = width;
+        this.setHeight = height;
+
+        this.paintContext.putImageData(temp, 0, 0);
     }
 
     toString() {
