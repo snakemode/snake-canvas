@@ -54,7 +54,6 @@ export class DrawableCanvasElement {
 
     setActiveColour(colour) {
         this.activeColour = colour;
-        this.notify({ setActiveColour: colour });
     }
 
     clear() {
@@ -80,6 +79,7 @@ export class DrawableCanvasElement {
 
     startDrawing(e) {
         this.dragging = true;
+        this.notify({ setActiveColour: this.activeColour });
 
         const location = this.getLocationFrom(e);
         this.cursorPoint = location;
