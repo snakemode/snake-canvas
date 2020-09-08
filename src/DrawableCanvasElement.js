@@ -45,12 +45,8 @@ export class DrawableCanvasElement {
         const palette = document.getElementById(paletteContainer);
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
-                console.log("Switching active colour");
-
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
                 this.setActiveColour(selectedColour);
-
-                console.log("Set colour to", selectedColour);
             });
         }
         return this;
@@ -58,6 +54,7 @@ export class DrawableCanvasElement {
 
     setActiveColour(colour) {
         this.activeColour = colour;
+        this.notify({ setActiveColour: colour });
     }
 
     clear() {
@@ -111,7 +108,7 @@ export class DrawableCanvasElement {
         this.notify(location);
     }
 
-    addMarks(markCollection) {
+    addMarks(events) {
         this.paintContext.lineWidth = this.lineWidth;
         this.paintContext.lineCap = 'round';
         this.paintContext.filter = 'blur(1px)';
@@ -120,10 +117,19 @@ export class DrawableCanvasElement {
         this.paintContext.moveTo(location.x, location.y);
         this.paintContext.strokeStyle = this.activeColour;
 
-        for (let location of markCollection) {
-            this.paintContext.lineTo(location.x, location.y);
-            this.paintContext.stroke();
+        for (let evt of events) {
+
+            if ('setActiveColour' in evt) {
+                this.paintContext.strokeStyle = evt.setActiveColour;
+            }
+
+            if ('x' in evt && 'y' in evt) {
+                this.paintContext.lineTo(evt.x, evt.y);
+                this.paintContext.stroke();
+            }
         }
+
+        this.paintContext.strokeStyle = this.activeColour;
     }
 
     onNotification(callback) {
