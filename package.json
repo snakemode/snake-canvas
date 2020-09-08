@@ -1,13 +1,13 @@
 {
   "name": "@snakemode/snake-canvas",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A drawable canvas for your HTML!",
   "main": "src/DrawableCanvasElement.js",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "start": "npx live-server src",
+    "start": "npx live-server src --port=8081",
     "ci": "",
     "test": "jest"
   },

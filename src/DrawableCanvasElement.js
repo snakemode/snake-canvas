@@ -50,7 +50,7 @@ export class DrawableCanvasElement {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
                 this.setActiveColour(selectedColour);
 
-                console.log("Set colour to ", selectedColour);
+                console.log("Set colour to", selectedColour);
             });
         }
         return this;
