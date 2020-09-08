@@ -95,7 +95,6 @@ export class DrawableCanvasElement {
     stopDrawing(e) {
         this.dragging = false;
         this.notify(null, true);
-        this.paintContext.closePath();
     }
 
     makeMarks(e) {
@@ -133,7 +132,6 @@ export class DrawableCanvasElement {
             this.paintContext.stroke();
         }
 
-        this.paintContext.closePath();
         this.paintContext.strokeStyle = this.activeColour;
     }
 
