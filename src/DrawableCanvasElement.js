@@ -47,6 +47,7 @@ export class DrawableCanvasElement {
             colour.addEventListener('click', (event) => {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
                 this.setActiveColour(selectedColour);
+                palette.setAttribute('data-selected', selectedColour);
             });
         }
         return this;
