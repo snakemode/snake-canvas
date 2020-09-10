@@ -46,7 +46,7 @@ export class DrawableCanvasElement {
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
-                const thickness = event.target.dataset.thickness || 1;
+                const thickness = parseInt(event.target.dataset.thickness) || 1;
 
                 this.setActiveColour(selectedColour, thickness);
                 palette.setAttribute('data-selected', selectedColour);
@@ -124,10 +124,12 @@ export class DrawableCanvasElement {
         this.paintContext.beginPath();
 
         let started = false;
+        let transparent = false;
 
         for (let evt of events) {
             if ('setActiveColour' in evt) {
                 this.paintContext.strokeStyle = evt.setActiveColour;
+                transparent = evt.setActiveColour === "transparent" ? true : false;
                 continue;
             }
 
@@ -138,7 +140,7 @@ export class DrawableCanvasElement {
                 started = true;
             }
 
-            if (this.activeColour == "transparent") {
+            if (transparent) {
                 this.paintContext.clearRect(evt[0], evt[1], evt[2], evt[2]);
             } else {
                 this.paintContext.lineTo(evt[0], evt[1]);
