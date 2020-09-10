@@ -138,6 +138,7 @@ export class DrawableCanvasElement {
         }
 
         this.paintContext.strokeStyle = this.activeColour;
+        this.paintContext.lineWidth = this.lineWidth;
     }
 
     onNotification(callback) {
