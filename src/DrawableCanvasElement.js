@@ -46,15 +46,18 @@ export class DrawableCanvasElement {
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
-                this.setActiveColour(selectedColour);
+                const thickness = event.target.dataset.thickness || 1;
+
+                this.setActiveColour(selectedColour, thickness);
                 palette.setAttribute('data-selected', selectedColour);
             });
         }
         return this;
     }
 
-    setActiveColour(colour) {
+    setActiveColour(colour, thickness) {
         this.activeColour = colour;
+        this.lineWidth = thickness || 1;
     }
 
     clear() {
@@ -105,7 +108,7 @@ export class DrawableCanvasElement {
         this.paintContext.lineTo(location.x, location.y);
         this.paintContext.stroke();
 
-        this.notify([location.x, location.y]);
+        this.notify([location.x, location.y, this.lineWidth]);
     }
 
     addMarks(events) {
@@ -125,6 +128,7 @@ export class DrawableCanvasElement {
 
             if (!started) {
                 // Always moveTo first x,y coord to line paths up.
+                this.paintContext.lineWidth = evt[2];
                 this.paintContext.moveTo(evt[0], evt[1]);
                 started = true;
             }
