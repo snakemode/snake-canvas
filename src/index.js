@@ -13,5 +13,5 @@ canvas.onNotification((msg) => {
     canvas2.addMarks(msg);
 });
 
-canvas.setSize(1024, 768);
-canvas2.setSize(1024, 768);
+canvas.setSize(640, 480);
+canvas2.setSize(640, 480);

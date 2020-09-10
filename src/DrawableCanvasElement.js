@@ -105,8 +105,13 @@ export class DrawableCanvasElement {
         if (!this.dragging) return;
 
         const location = this.getLocationFrom(e);
-        this.paintContext.lineTo(location.x, location.y);
-        this.paintContext.stroke();
+
+        if (this.activeColour == "transparent") {
+            this.paintContext.clearRect(location.x, location.y, this.lineWidth, this.lineWidth);
+        } else {
+            this.paintContext.lineTo(location.x, location.y);
+            this.paintContext.stroke();
+        }
 
         this.notify([location.x, location.y, this.lineWidth]);
     }
@@ -133,8 +138,12 @@ export class DrawableCanvasElement {
                 started = true;
             }
 
-            this.paintContext.lineTo(evt[0], evt[1]);
-            this.paintContext.stroke();
+            if (this.activeColour == "transparent") {
+                this.paintContext.clearRect(evt[0], evt[1], evt[2], evt[2]);
+            } else {
+                this.paintContext.lineTo(evt[0], evt[1]);
+                this.paintContext.stroke();
+            }
         }
 
         this.paintContext.strokeStyle = this.activeColour;
