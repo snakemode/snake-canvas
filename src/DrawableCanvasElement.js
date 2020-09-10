@@ -117,39 +117,46 @@ export class DrawableCanvasElement {
     }
 
     addMarks(events) {
-        this.paintContext.lineWidth = this.lineWidth;
-        this.paintContext.lineCap = 'round';
-        this.paintContext.filter = 'blur(1px)';
 
-        this.paintContext.beginPath();
+        var tempCanvas = document.createElement("CANVAS");
+        tempCanvas.width = this.paintCanvas.width;
+        tempCanvas.height = this.paintCanvas.height;
+
+        var paintContext = tempCanvas.getContext("2d");
+
+        paintContext.lineWidth = this.lineWidth;
+        paintContext.lineCap = 'round';
+        paintContext.filter = 'blur(1px)';
+
+        paintContext.beginPath();
 
         let started = false;
         let transparent = false;
 
         for (let evt of events) {
             if ('setActiveColour' in evt) {
-                this.paintContext.strokeStyle = evt.setActiveColour;
+                paintContext.strokeStyle = evt.setActiveColour;
                 transparent = evt.setActiveColour === "transparent" ? true : false;
                 continue;
             }
 
             if (!started) {
                 // Always moveTo first x,y coord to line paths up.
-                this.paintContext.lineWidth = evt[2];
-                this.paintContext.moveTo(evt[0], evt[1]);
+                paintContext.lineWidth = evt[2];
+                paintContext.moveTo(evt[0], evt[1]);
                 started = true;
             }
 
             if (transparent) {
                 this.paintContext.clearRect(evt[0], evt[1], evt[2], evt[2]);
             } else {
-                this.paintContext.lineTo(evt[0], evt[1]);
-                this.paintContext.stroke();
+                paintContext.lineTo(evt[0], evt[1]);
+                paintContext.stroke();
             }
         }
 
-        this.paintContext.strokeStyle = this.activeColour;
-        this.paintContext.lineWidth = this.lineWidth;
+        this.paintContext.drawImage(tempCanvas, 0, 0);
+
     }
 
     onNotification(callback) {
