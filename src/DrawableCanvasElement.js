@@ -49,9 +49,9 @@ export class DrawableCanvasElement {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
                 const thickness = parseInt(event.target.dataset.thickness) || 1;
 
-                [...palette.children].forEach(c => c.setAttribute('active', 'false'));
+                [...palette.children].forEach(c => c.setAttribute('data-active', 'false'));
 
-                colour.setAttribute('active', 'true');
+                colour.setAttribute('data-active', 'true');
                 this.setActiveColour(selectedColour, thickness);
                 palette.setAttribute('data-selected', selectedColour);
             });
