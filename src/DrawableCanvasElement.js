@@ -43,10 +43,13 @@ export class DrawableCanvasElement {
 
     registerPaletteElements(paletteContainer) {
         const palette = document.getElementById(paletteContainer);
+
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
                 const selectedColour = event.target.style["background-color"] || event.target.dataset.color || event.target.dataset.colour || event.target.id;
                 const thickness = parseInt(event.target.dataset.thickness) || 1;
+
+                [...palette.children].forEach(c => c.setAttribute('active', 'false'));
 
                 colour.setAttribute('active', 'true');
                 this.setActiveColour(selectedColour, thickness);
