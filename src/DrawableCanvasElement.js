@@ -1,7 +1,13 @@
 export class DrawableCanvasElement {
-    constructor(canvasElementId) {
-        this.canvasElementId = canvasElementId;
-        this.paintCanvas = document.getElementById(canvasElementId);
+    constructor(canvasElementIdOrElement) {
+
+        if (typeof canvasElementIdOrElement === "string") {
+            this.canvasElementId = canvasElementIdOrElement;
+            this.paintCanvas = document.getElementById(canvasElementIdOrElement);
+        } else {
+            this.paintCanvas = canvasElementIdOrElement;
+        }
+
         this.paintContext = this.paintCanvas.getContext("2d");
 
         this.activeColour = "black";
@@ -41,8 +47,16 @@ export class DrawableCanvasElement {
         this.notificationBatch = 1000;
     }
 
-    registerPaletteElements(paletteContainer) {
-        const palette = document.getElementById(paletteContainer);
+    registerPaletteElements(paletteContainerIdOrElement) {
+
+        let palette;
+        if (typeof paletteContainerIdOrElement === "string") {
+            this.canvasElementId = paletteContainerIdOrElement;
+            palette = document.getElementById(paletteContainerIdOrElement);
+        } else {
+            palette = paletteContainerIdOrElement;
+        }
+
 
         for (let colour of palette.children) {
             colour.addEventListener('click', (event) => {
