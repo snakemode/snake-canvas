@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "npx live-server src --port=8081",
-    "ci": "",
+    "ci": "echo 'nothing here'",
     "test": "jest"
   },
   "repository": {
