@@ -22,21 +22,21 @@ export class DrawableCanvasElement {
 
         const canvas = this.paintCanvas;
 
-        document.body.addEventListener("touchstart", (e) => {
+        this.paintCanvas.addEventListener("touchstart", (e) => {
             if (e.target == canvas) {
                 e.preventDefault();
                 this.startDrawing(e);
             }
         }, false);
 
-        document.body.addEventListener("touchend", (e) => {
+        this.paintCanvas.addEventListener("touchend", (e) => {
             if (e.target == canvas) {
                 e.preventDefault();
                 this.stopDrawing(e);
             }
         }, false);
 
-        document.body.addEventListener("touchmove", (e) => {
+        this.paintCanvas.addEventListener("touchmove", (e) => {
             if (e.target == canvas) {
                 e.preventDefault();
                 this.makeMarks(e);
@@ -100,6 +100,7 @@ export class DrawableCanvasElement {
     }
 
     startDrawing(e) {
+        console.log('drawing');
         this.dragging = true;
 
         const location = this.getLocationFrom(e);
